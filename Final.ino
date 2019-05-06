@@ -2,11 +2,11 @@
 
 int led[4] = {34, 33, 31, 32};
 boolean ledActive[4] = {HIGH, HIGH, HIGH, HIGH};
-int btnUpPin = 36;
-int btnDownPin = 35;
-int btnLeftPin = 29;
-int btnRightPin = 30;
-int btnSelectPin = 25;
+int btn1Pin = 36;
+int btn2Pin = 35;
+int btn3Pin = 29;
+int btn4Pin = 30;
+int btnReversePin = 25;
 int stepTime;
 int currentLed = 0;
 boolean ledOn = HIGH;
@@ -16,11 +16,11 @@ int stepp = 0;
 boolean direct = LOW;
 unsigned long lastStepTime = 0;
 
-Button btnUp(btnUpPin);
-Button btnDown(btnDownPin);
-Button btnLeft(btnLeftPin);
-Button btnRight(btnRightPin);
-Button btnSelect(btnSelectPin);
+Button btn1(btn1Pin);
+Button btn2(btn2Pin);
+Button btn3(btn3Pin);
+Button btn4(btn4Pin);
+Button btnReverse(btnReversePin);
 
 
 void setup()
@@ -33,31 +33,31 @@ void setup()
   }
     
 
-  pinMode(btnUpPin, INPUT);
-  pinMode(btnDownPin, INPUT);
-  pinMode(btnLeftPin, INPUT);
-  pinMode(btnRightPin, INPUT);
-  pinMode(btnSelectPin, INPUT);
+  pinMode(btn1Pin, INPUT);
+  pinMode(btn2Pin, INPUT);
+  pinMode(btn3Pin, INPUT);
+  pinMode(btn4Pin, INPUT);
+  pinMode(btnReversePin, INPUT);
 
   pinMode(tempo, INPUT);
   analogWriteResolution(12);
 
-  btnUp.pressButton(ledUp);
-  btnDown.pressButton(ledDown);
-  btnLeft.pressButton(ledLeft);
-  btnRight.pressButton(ledRight);
-  btnSelect.pressButton(ledSelect);
+  btn1.pressButton(led1);
+  btn2.pressButton(led2);
+  btn3.pressButton(led3);
+  btn4.pressButton(led4);
+  btnReverse.pressButton(ledReverse);
 
   Serial.begin(9600);
 }
 
 void loop()
 {
-  btnUp.process();
-  btnDown.process();
-  btnLeft.process();
-  btnRight.process();
-  btnSelect.process();
+  btn1.process();
+  btn2.process();
+  btn3.process();
+  btn4.process();
+  btnReverse.process();
   
   stepTime=map(analogRead(tempo), 0, 1023, 20, 750);
   
@@ -73,11 +73,11 @@ void loop()
         stepp = 0;
       while (ledActive[stepp] == LOW)
       {
-        btnUp.process();
-        btnDown.process();
-        btnLeft.process();
-        btnRight.process();
-        btnSelect.process();
+        btn1.process();
+        btn2.process();
+        btn3.process();
+        btn4.process();
+        btnReverse.process();
         stepp++;
       if (stepp > 3 )
         stepp = 0;
@@ -94,11 +94,11 @@ void loop()
         stepp = 3;
       while (ledActive[stepp] == LOW)
       {
-        btnUp.process();
-        btnDown.process();
-        btnLeft.process();
-        btnRight.process();
-        btnSelect.process();
+        btn1.process();
+        btn2.process();
+        btn3.process();
+        btn4.process();
+        btnReverse.process();
         stepp--;
       if (stepp < 0)
         stepp = 3;
@@ -113,31 +113,31 @@ void loop()
 
 }
 
-void ledUp()
+void led1()
 {
   ledActive[0]=!ledActive[0];
 
 }
 
-void ledDown()
+void led2()
 {
   ledActive[1]=!ledActive[1];
 
 
 }
 
-void ledLeft()
+void led3()
 {
   ledActive[2]=!ledActive[2];
 }
 
-void ledRight()
+void led4()
 {
   ledActive[3]=!ledActive[3];
 
 }
 
-void ledSelect()
+void ledReverse()
 {
   direct=!direct;
 }
